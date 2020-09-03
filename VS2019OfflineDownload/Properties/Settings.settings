@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VS2019OfflineDownload.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="程序版本" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Visual Studio Enterprise 2019</Value>
+    </Setting>
+    <Setting Name="缓存目录" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\vs2019</Value>
+    </Setting>
+    <Setting Name="选择负载" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CoreEditor|Azure|ManagedDesktop|NetCoreTools|NetCrossPlat|NetWeb|Universal</Value>
+    </Setting>
+    <Setting Name="选择组件" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

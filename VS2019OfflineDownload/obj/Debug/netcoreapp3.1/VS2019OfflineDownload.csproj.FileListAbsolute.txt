@@ -1,0 +1,17 @@
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.exe
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.deps.json
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.runtimeconfig.json
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.runtimeconfig.dev.json
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.dll
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.pdb
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.csprojAssemblyReference.cache
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.DownFile.resources
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.MainForm.resources
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.Properties.Resources.resources
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.csproj.GenerateResource.cache
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.AssemblyInfoInputs.cache
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.AssemblyInfo.cs
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.csproj.CoreCompileInputs.cache
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.dll
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.pdb
+C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.genruntimeconfig.cache
