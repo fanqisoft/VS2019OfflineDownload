@@ -8,216 +8,224 @@ using System.Windows.Forms;
 
 namespace VS2019OfflineDownload
 {
+    /// <summary>
+    /// 重写MessageBox
+    /// </summary>
     public class MessageBoxEx
-	{
-		public static DialogResult Show(string text)
-		{
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(text);
-		}
+    {
+        private static IWin32Window _owner;
+        private static HookProc _hookProc;
+        private static IntPtr _hHook;
 
-		public static DialogResult Show(string text, string caption)
-		{
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(text, caption);
-		}
+        public static DialogResult Show(string text)
+        {
+            Initialize();
+            return MessageBox.Show(text);
+        }
 
-		public static DialogResult Show(string text, string caption, MessageBoxButtons buttons)
-		{
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(text, caption, buttons);
-		}
+        public static DialogResult Show(string text, string caption)
+        {
+            Initialize();
+            return MessageBox.Show(text, caption);
+        }
 
-		public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
-		{
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(text, caption, buttons, icon);
-		}
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons)
+        {
+            Initialize();
+            return MessageBox.Show(text, caption, buttons);
+        }
 
-		public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton)
-		{
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(text, caption, buttons, icon, defButton);
-		}
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        {
+            Initialize();
+            return MessageBox.Show(text, caption, buttons, icon);
+        }
 
-		public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton, MessageBoxOptions options)
-		{
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(text, caption, buttons, icon, defButton, options);
-		}
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton)
+        {
+            Initialize();
+            return MessageBox.Show(text, caption, buttons, icon, defButton);
+        }
 
-		public static DialogResult Show(IWin32Window owner, string text)
-		{
-			MessageBoxEx._owner = owner;
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(owner, text);
-		}
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton, MessageBoxOptions options)
+        {
+            Initialize();
+            return MessageBox.Show(text, caption, buttons, icon, defButton, options);
+        }
 
-		public static DialogResult Show(IWin32Window owner, string text, string caption)
-		{
-			MessageBoxEx._owner = owner;
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(owner, text, caption);
-		}
+        public static DialogResult Show(IWin32Window owner, string text)
+        {
+            _owner = owner;
+            Initialize();
+            return MessageBox.Show(owner, text);
+        }
 
-		public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons)
-		{
-			MessageBoxEx._owner = owner;
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(owner, text, caption, buttons);
-		}
+        public static DialogResult Show(IWin32Window owner, string text, string caption)
+        {
+            _owner = owner;
+            Initialize();
+            return MessageBox.Show(owner, text, caption);
+        }
 
-		public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
-		{
-			MessageBoxEx._owner = owner;
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(owner, text, caption, buttons, icon);
-		}
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons)
+        {
+            _owner = owner;
+            Initialize();
+            return MessageBox.Show(owner, text, caption, buttons);
+        }
 
-		public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton)
-		{
-			MessageBoxEx._owner = owner;
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(owner, text, caption, buttons, icon, defButton);
-		}
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        {
+            _owner = owner;
+            Initialize();
+            return MessageBox.Show(owner, text, caption, buttons, icon);
+        }
 
-		public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton, MessageBoxOptions options)
-		{
-			MessageBoxEx._owner = owner;
-			MessageBoxEx.Initialize();
-			return MessageBox.Show(owner, text, caption, buttons, icon, defButton, options);
-		}
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton)
+        {
+            _owner = owner;
+            Initialize();
+            return MessageBox.Show(owner, text, caption, buttons, icon, defButton);
+        }
 
-		[DllImport("user32.dll")]
-		private static extern bool GetWindowRect(IntPtr hWnd, ref Rectangle lpRect);
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton, MessageBoxOptions options)
+        {
+            _owner = owner;
+            Initialize();
+            return MessageBox.Show(owner, text, caption, buttons, icon,
+                                    defButton, options);
+        }
 
-		[DllImport("user32.dll")]
-		private static extern int MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+        public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
 
-		[DllImport("User32.dll")]
-		public static extern UIntPtr SetTimer(IntPtr hWnd, UIntPtr nIDEvent, uint uElapse, MessageBoxEx.TimerProc lpTimerFunc);
+        public delegate void TimerProc(IntPtr hWnd, uint uMsg, UIntPtr nIDEvent, uint dwTime);
 
-		[DllImport("User32.dll")]
-		public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        public const int WH_CALLWNDPROCRET = 12;
 
-		[DllImport("user32.dll")]
-		public static extern IntPtr SetWindowsHookEx(int idHook, MessageBoxEx.HookProc lpfn, IntPtr hInstance, int threadId);
+        public enum CbtHookAction : int
+        {
+            HCBT_MOVESIZE = 0,
+            HCBT_MINMAX = 1,
+            HCBT_QS = 2,
+            HCBT_CREATEWND = 3,
+            HCBT_DESTROYWND = 4,
+            HCBT_ACTIVATE = 5,
+            HCBT_CLICKSKIPPED = 6,
+            HCBT_KEYSKIPPED = 7,
+            HCBT_SYSCOMMAND = 8,
+            HCBT_SETFOCUS = 9
+        }
 
-		[DllImport("user32.dll")]
-		public static extern int UnhookWindowsHookEx(IntPtr idHook);
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowRect(IntPtr hWnd, ref Rectangle lpRect);
 
-		[DllImport("user32.dll")]
-		public static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll")]
+        private static extern int MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
-		[DllImport("user32.dll")]
-		public static extern int GetWindowTextLength(IntPtr hWnd);
+        [DllImport("User32.dll")]
+        public static extern UIntPtr SetTimer(IntPtr hWnd, UIntPtr nIDEvent, uint uElapse, TimerProc lpTimerFunc);
 
-		[DllImport("user32.dll")]
-		public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int maxLength);
+        [DllImport("User32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
-		[DllImport("user32.dll")]
-		public static extern int EndDialog(IntPtr hDlg, IntPtr nResult);
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hInstance, int threadId);
 
-		private static void Initialize()
-		{
-			if (MessageBoxEx._hHook != IntPtr.Zero)
-			{
-				throw new NotSupportedException("multiple calls are not supported");
-			}
-			if (MessageBoxEx._owner != null)
-			{
-				MessageBoxEx._hHook = MessageBoxEx.SetWindowsHookEx(12, MessageBoxEx._hookProc, IntPtr.Zero, AppDomain.GetCurrentThreadId());
-			}
-		}
+        [DllImport("user32.dll")]
+        public static extern int UnhookWindowsHookEx(IntPtr idHook);
 
-		private static IntPtr MessageBoxHookProc(int nCode, IntPtr wParam, IntPtr lParam)
-		{
-			if (nCode < 0)
-			{
-				return MessageBoxEx.CallNextHookEx(MessageBoxEx._hHook, nCode, wParam, lParam);
-			}
-			MessageBoxEx.CWPRETSTRUCT cwpretstruct = (MessageBoxEx.CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(MessageBoxEx.CWPRETSTRUCT));
-			IntPtr hHook = MessageBoxEx._hHook;
-			if (cwpretstruct.message == 5U)
-			{
-				try
-				{
-					MessageBoxEx.CenterWindow(cwpretstruct.hwnd);
-				}
-				finally
-				{
-					MessageBoxEx.UnhookWindowsHookEx(MessageBoxEx._hHook);
-					MessageBoxEx._hHook = IntPtr.Zero;
-				}
-			}
-			return MessageBoxEx.CallNextHookEx(hHook, nCode, wParam, lParam);
-		}
+        [DllImport("user32.dll")]
+        public static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
 
-		private static void CenterWindow(IntPtr hChildWnd)
-		{
-			Rectangle rectangle = new Rectangle(0, 0, 0, 0);
-			MessageBoxEx.GetWindowRect(hChildWnd, ref rectangle);
-			int num = rectangle.Width - rectangle.X;
-			int num2 = rectangle.Height - rectangle.Y;
-			Rectangle rectangle2 = new Rectangle(0, 0, 0, 0);
-			MessageBoxEx.GetWindowRect(MessageBoxEx._owner.Handle, ref rectangle2);
-			Point point = new Point(0, 0);
-			point.X = rectangle2.X + (rectangle2.Width - rectangle2.X) / 2;
-			point.Y = rectangle2.Y + (rectangle2.Height - rectangle2.Y) / 2;
-			Point point2 = new Point(0, 0);
-			point2.X = point.X - num / 2;
-			point2.Y = point.Y - num2 / 2;
-			point2.X = ((point2.X < 0) ? 0 : point2.X);
-			point2.Y = ((point2.Y < 0) ? 0 : point2.Y);
-			MessageBoxEx.MoveWindow(hChildWnd, point2.X, point2.Y, num, num2, false);
-		}
+        [DllImport("user32.dll")]
+        public static extern int GetWindowTextLength(IntPtr hWnd);
 
-		private static IWin32Window _owner;
+        [DllImport("user32.dll")]
+        public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int maxLength);
 
-		private static MessageBoxEx.HookProc _hookProc = new MessageBoxEx.HookProc(MessageBoxEx.MessageBoxHookProc);
+        [DllImport("user32.dll")]
+        public static extern int EndDialog(IntPtr hDlg, IntPtr nResult);
 
-		private static IntPtr _hHook = IntPtr.Zero;
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CWPRETSTRUCT
+        {
+            public IntPtr lResult;
+            public IntPtr lParam;
+            public IntPtr wParam;
+            public uint message;
+            public IntPtr hwnd;
+        };
 
-		public const int WH_CALLWNDPROCRET = 12;
+        static MessageBoxEx()
+        {
+            _hookProc = new HookProc(MessageBoxHookProc);
+            _hHook = IntPtr.Zero;
+        }
 
-		public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
+        private static void Initialize()
+        {
+            if (_hHook != IntPtr.Zero)
+            {
+                throw new NotSupportedException("multiple calls are not supported");
+            }
 
-		public delegate void TimerProc(IntPtr hWnd, uint uMsg, UIntPtr nIDEvent, uint dwTime);
+            if (_owner != null)
+            {
+                _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, Thread.GetCurrentProcessorId());
+            }
+        }
 
-		public enum CbtHookAction
-		{
-			HCBT_MOVESIZE,
+        private static IntPtr MessageBoxHookProc(int nCode, IntPtr wParam, IntPtr lParam)
+        {
+            if (nCode < 0)
+            {
+                return CallNextHookEx(_hHook, nCode, wParam, lParam);
+            }
 
-			HCBT_MINMAX,
+            CWPRETSTRUCT msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
+            IntPtr hook = _hHook;
 
-			HCBT_QS,
+            if (msg.message == (int)CbtHookAction.HCBT_ACTIVATE)
+            {
+                try
+                {
+                    CenterWindow(msg.hwnd);
+                }
+                finally
+                {
+                    UnhookWindowsHookEx(_hHook);
+                    _hHook = IntPtr.Zero;
+                }
+            }
 
-			HCBT_CREATEWND,
+            return CallNextHookEx(hook, nCode, wParam, lParam);
+        }
 
-			HCBT_DESTROYWND,
+        private static void CenterWindow(IntPtr hChildWnd)
+        {
+            Rectangle recChild = new Rectangle(0, 0, 0, 0);
+            bool success = GetWindowRect(hChildWnd, ref recChild);
 
-			HCBT_ACTIVATE,
+            int width = recChild.Width - recChild.X;
+            int height = recChild.Height - recChild.Y;
 
-			HCBT_CLICKSKIPPED,
+            Rectangle recParent = new Rectangle(0, 0, 0, 0);
+            success = GetWindowRect(_owner.Handle, ref recParent);
 
-			HCBT_KEYSKIPPED,
+            Point ptCenter = new Point(0, 0);
+            ptCenter.X = recParent.X + ((recParent.Width - recParent.X) / 2);
+            ptCenter.Y = recParent.Y + ((recParent.Height - recParent.Y) / 2);
 
-			HCBT_SYSCOMMAND,
 
-			HCBT_SETFOCUS
-		}
+            Point ptStart = new Point(0, 0);
+            ptStart.X = (ptCenter.X - (width / 2));
+            ptStart.Y = (ptCenter.Y - (height / 2));
 
-		public struct CWPRETSTRUCT
-		{
-			public IntPtr lResult;
+            ptStart.X = (ptStart.X < 0) ? 0 : ptStart.X;
+            ptStart.Y = (ptStart.Y < 0) ? 0 : ptStart.Y;
 
-			public IntPtr lParam;
-
-			public IntPtr wParam;
-
-			public uint message;
-
-			public IntPtr hwnd;
-		}
-	}
+            int result = MoveWindow(hChildWnd, ptStart.X, ptStart.Y, width,
+                                    height, false);
+        }
+    }
 }

@@ -25,7 +25,7 @@ namespace VS2019OfflineDownload.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Visual Studio Enterprise 2019")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string 程序版本 {
             get {
                 return ((string)(this["程序版本"]));
@@ -34,7 +34,7 @@ namespace VS2019OfflineDownload.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\vs2019")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string 缓存目录 {
             get {
                 return ((string)(this["缓存目录"]));
@@ -43,7 +43,7 @@ namespace VS2019OfflineDownload.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CoreEditor|Azure|ManagedDesktop|NetCoreTools|NetCrossPlat|NetWeb|Universal")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string 选择负载 {
             get {
                 return ((string)(this["选择负载"]));

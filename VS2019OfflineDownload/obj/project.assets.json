@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fanqi\\source\\repos\\VS2019OfflineDownload\\VS2019OfflineDownload\\VS2019OfflineDownload.csproj",
+      "projectUniqueName": "D:\\Coreqi\\VS2019OfflineDownload\\VS2019OfflineDownload\\VS2019OfflineDownload.csproj",
       "projectName": "VS2019OfflineDownload",
-      "projectPath": "C:\\Users\\fanqi\\source\\repos\\VS2019OfflineDownload\\VS2019OfflineDownload\\VS2019OfflineDownload.csproj",
+      "projectPath": "D:\\Coreqi\\VS2019OfflineDownload\\VS2019OfflineDownload\\VS2019OfflineDownload.csproj",
       "packagesPath": "C:\\Users\\fanqi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fanqi\\source\\repos\\VS2019OfflineDownload\\VS2019OfflineDownload\\obj\\",
+      "outputPath": "D:\\Coreqi\\VS2019OfflineDownload\\VS2019OfflineDownload\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -66,7 +66,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
