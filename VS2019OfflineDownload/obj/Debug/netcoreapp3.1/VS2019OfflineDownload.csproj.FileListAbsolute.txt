@@ -16,12 +16,12 @@ C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debu
 C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.pdb
 C:\Users\fanqi\source\repos\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.genruntimeconfig.cache
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.exe
+D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\Properties\Settings.settings
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.deps.json
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.runtimeconfig.json
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.runtimeconfig.dev.json
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.dll
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.pdb
-D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.csprojAssemblyReference.cache
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.DownFile.resources
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.MainForm.resources
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.Properties.Resources.resources
@@ -32,4 +32,3 @@ D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.dll
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.pdb
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.genruntimeconfig.cache
-D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\Properties\Settings.settings

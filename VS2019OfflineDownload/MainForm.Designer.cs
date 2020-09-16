@@ -131,6 +131,7 @@
             this.linkDown.TabIndex = 5;
             this.linkDown.TabStop = true;
             this.linkDown.Text = "点击下载";
+            this.linkDown.Visible = false;
             this.linkDown.Click += new System.EventHandler(this.linkDown_Click);
             // 
             // btnDown

@@ -726,12 +726,10 @@ namespace VS2019OfflineDownload
 			if (this.comboBox1.Text == "Visual Studio Community 2019")
 			{
 				this.label3.Text = "社区版无需序列号";
-				return;
 			}
 			if (this.comboBox1.Text == "Visual Studio Professional 2019")
 			{
 				this.label3.Text = "NYWVH-HT4XC-R2WYW-9Y3CM-X4V3Y";
-				return;
 			}
 			if (this.comboBox1.Text == "Visual Studio Enterprise 2019")
 			{
