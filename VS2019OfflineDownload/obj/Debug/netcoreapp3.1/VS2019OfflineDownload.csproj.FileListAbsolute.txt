@@ -32,3 +32,5 @@ D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.dll
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.pdb
 D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.genruntimeconfig.cache
+D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\bin\Debug\netcoreapp3.1\VS2019OfflineDownload.dll.config
+D:\Coreqi\VS2019OfflineDownload\VS2019OfflineDownload\obj\Debug\netcoreapp3.1\VS2019OfflineDownload.csprojAssemblyReference.cache

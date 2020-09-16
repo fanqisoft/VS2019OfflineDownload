@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -458,31 +459,114 @@ namespace VS2019OfflineDownload
         }
 
 		/// <summary>
-		/// 窗体显示时操作
+		/// 窗体显示时操作(读取xml)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		//private void MainForm_Shown(object sender, EventArgs e)
+		//{
+		//	if (Settings.Default["程序版本"].ToString() != "")
+		//	{
+		//		this.comboBox1.SelectedItem = Settings.Default["程序版本"].ToString();
+		//	}
+		//	if (Settings.Default["缓存目录"].ToString() != "")
+		//	{
+		//		this.txtSaveDirectory.Text = Settings.Default["缓存目录"].ToString();
+		//	}
+
+		//	string checkWorkloadStr = "";
+		//	string checkComponentStr = "";
+
+		//	if (Settings.Default["选择负载"].ToString() != "")
+		//	{
+		//		checkWorkloadStr = Settings.Default["选择负载"].ToString();
+		//	}
+		//	if (Settings.Default["选择组件"].ToString() != "")
+		//	{
+		//		checkComponentStr = Settings.Default["选择组件"].ToString();
+		//	}
+
+		//	this.treeViewWorkload.Nodes.Clear();
+
+		//	foreach (DicNode dicNode in workloadList)
+		//	{
+		//		TreeNode treeNode = new TreeNode();
+		//		treeNode.Name = dicNode.name;
+		//		treeNode.Text = dicNode.text;
+		//		treeNode.ToolTipText = dicNode.toolTip;
+
+		//		if (checkWorkloadStr.IndexOf(dicNode.name) > -1)
+		//		{
+		//			dicNode.isChecked = true;
+		//			treeNode.Checked = true;
+		//		}
+
+		//		if (dicNode.name == "CoreEditor")
+		//		{
+		//			treeNode.Checked = true;
+		//		}
+
+		//		if (dicNode.name == "Others")
+		//		{
+		//			int checkedNum = 0;
+		//			foreach (DicNode tempdicNode in componentList)
+		//			{
+		//				TreeNode childNode = new TreeNode();
+		//				childNode.Name = tempdicNode.name;
+		//				childNode.Text = tempdicNode.text;
+		//				childNode.ToolTipText = tempdicNode.toolTip;
+		//				treeNode.Nodes.Add(childNode);
+
+		//				if (checkComponentStr.IndexOf(tempdicNode.name) > -1)
+		//				{
+		//					tempdicNode.isChecked = true;
+		//					childNode.Checked = true;
+		//					checkedNum++;
+		//				}
+		//			}
+		//			if (treeNode.Nodes.Count != checkedNum)
+		//			{
+		//				treeNode.Checked = false;
+		//				dicNode.isChecked = false;
+		//			}
+		//		}
+		//		this.treeViewWorkload.Nodes.Add(treeNode);
+		//	}
+		//}
+
+		/// <summary>
+		/// 窗体显示时操作(读取json)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void MainForm_Shown(object sender, EventArgs e)
 		{
-			if (Settings.Default["程序版本"].ToString() != "")
-			{
-				this.comboBox1.SelectedItem = Settings.Default["程序版本"].ToString();
-			}
-			if (Settings.Default["缓存目录"].ToString() != "")
-			{
-				this.txtSaveDirectory.Text = Settings.Default["缓存目录"].ToString();
+			string configFileName = Application.ExecutablePath + ".json";
+			string json = File.ReadAllText(configFileName);
+			var jDoc = JsonDocument.Parse(json);
+
+			JsonElement jsonElement = new JsonElement();
+			if (jDoc.RootElement.TryGetProperty("ApplicationVersion", out jsonElement))
+            {
+				this.comboBox1.SelectedItem = jsonElement.GetString();
+            }
+
+			if(jDoc.RootElement.TryGetProperty("CacheDire", out jsonElement))
+            {
+				this.txtSaveDirectory.Text = jsonElement.GetString();
 			}
 
 			string checkWorkloadStr = "";
 			string checkComponentStr = "";
 
-			if (Settings.Default["选择负载"].ToString() != "")
+			if (jDoc.RootElement.TryGetProperty("SelectLoad", out jsonElement))
 			{
-				checkWorkloadStr = Settings.Default["选择负载"].ToString();
+				checkWorkloadStr = jsonElement.GetString();
 			}
-			if (Settings.Default["选择组件"].ToString() != "")
+
+			if (jDoc.RootElement.TryGetProperty("SelectComponents", out jsonElement))
 			{
-				checkComponentStr = Settings.Default["选择组件"].ToString();
+				checkComponentStr = jsonElement.GetString();
 			}
 
 			this.treeViewWorkload.Nodes.Clear();
@@ -789,92 +873,168 @@ namespace VS2019OfflineDownload
 		}
 
 		/// <summary>
-		/// 保存设置
+		/// 保存设置(使用xml)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		//private void btnSave_Click(object sender, EventArgs e)
+		//{
+		//	string configFileName = Application.ExecutablePath + ".config";
+		//	XmlDocument doc = new XmlDocument();
+		//	doc.Load(configFileName);
+		//	string configString = @"configuration/applicationSettings/vs2019离线安装操作.Properties.Settings/setting[@name='程序版本']/value";
+		//	XmlNode configNode = doc.SelectSingleNode(configString);
+
+		//	if (configNode != null && this.comboBox1.SelectedIndex > -1)
+		//	{
+		//		configNode.InnerText = comboBox1.SelectedItem.ToString();
+		//		doc.Save(configFileName);
+		//	}
+
+		//	configString = @"configuration/applicationSettings/vs2019离线安装操作.Properties.Settings/setting[@name='缓存目录']/value";
+		//	configNode = doc.SelectSingleNode(configString);
+		//	if (configNode != null)
+		//	{
+		//		configNode.InnerText = this.txtSaveDirectory.Text.Trim();
+		//		doc.Save(configFileName);
+		//		// 刷新应用程序设置，这样下次读取时才能读到最新的值。
+		//		Settings.Default.Reload();
+		//	}
+
+		//	string text = "";
+		//	List<DicNode> checklist = null;
+		//	configString = @"configuration/applicationSettings/vs2019离线安装操作.Properties.Settings/setting[@name='选择负载']/value";
+		//	configNode = doc.SelectSingleNode(configString);
+		//	if (configNode != null)
+		//	{
+		//		text = "";
+		//		checklist = workloadList.Where(a => a.isChecked == true).ToList();
+
+		//		foreach (DicNode dicNode in checklist)
+		//		{
+		//			if (text != "")
+		//			{
+		//				text += "|";
+		//			}
+		//			text += dicNode.name;
+		//		}
+		//		configNode.InnerText = text;
+		//		doc.Save(configFileName);
+		//		// 刷新应用程序设置，这样下次读取时才能读到最新的值。
+		//		Settings.Default.Reload();
+		//	}
+
+		//	configString = @"configuration/applicationSettings/vs2019离线安装操作.Properties.Settings/setting[@name='选择组件']/value";
+		//	configNode = doc.SelectSingleNode(configString);
+		//	if (configNode != null)
+		//	{
+		//		text = "";
+		//		checklist = componentList.Where(a => a.isChecked == true).ToList();
+
+		//		foreach (DicNode dicNode in checklist)
+		//		{
+		//			if (text != "")
+		//			{
+		//				text += "|";
+		//			}
+		//			text += dicNode.name;
+		//		}
+		//		configNode.InnerText = text;
+		//		doc.Save(configFileName);
+		//		// 刷新应用程序设置，这样下次读取时才能读到最新的值。
+		//		Settings.Default.Reload();
+		//	}
+
+		//          //程序运行后只有操作xml方式才能修改配置文件
+		//          //if (comboBox1.SelectedIndex > -1)
+		//          //{
+		//          //    Settings.Default["程序版本"] = comboBox1.SelectedItem.ToString();
+		//          //}
+		//          //else
+		//          //{
+		//          //    Settings.Default["程序版本"] = "";
+		//          //}
+
+		//          //Settings.Default["缓存目录"] = txtSaveDirectory.Text.Trim();
+		//          //Settings.Default.Save();
+
+		//          MessageBoxEx.Show(this, "保存成功", "提示");
+		//}
+
+
+		/// <summary>
+		/// 保存设置(使用json)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			string configFileName = Application.ExecutablePath + ".config";
-			XmlDocument doc = new XmlDocument();
-			doc.Load(configFileName);
-			string configString = @"configuration/applicationSettings/vs2019离线安装操作.Properties.Settings/setting[@name='程序版本']/value";
-			XmlNode configNode = doc.SelectSingleNode(configString);
+			string configFileName = Application.ExecutablePath + ".json";
 
-			if (configNode != null && this.comboBox1.SelectedIndex > -1)
+			string json = string.Empty;
+
+			using (MemoryStream ms = new MemoryStream())
 			{
-				configNode.InnerText = comboBox1.SelectedItem.ToString();
-				doc.Save(configFileName);
-			}
-
-			configString = @"configuration/applicationSettings/vs2019离线安装操作.Properties.Settings/setting[@name='缓存目录']/value";
-			configNode = doc.SelectSingleNode(configString);
-			if (configNode != null)
-			{
-				configNode.InnerText = this.txtSaveDirectory.Text.Trim();
-				doc.Save(configFileName);
-				// 刷新应用程序设置，这样下次读取时才能读到最新的值。
-				Settings.Default.Reload();
-			}
-
-			string text = "";
-			List<DicNode> checklist = null;
-			configString = @"configuration/applicationSettings/vs2019离线安装操作.Properties.Settings/setting[@name='选择负载']/value";
-			configNode = doc.SelectSingleNode(configString);
-			if (configNode != null)
-			{
-				text = "";
-				checklist = workloadList.Where(a => a.isChecked == true).ToList();
-
-				foreach (DicNode dicNode in checklist)
+				using (Utf8JsonWriter writer = new Utf8JsonWriter(ms))
 				{
-					if (text != "")
-					{
-						text += "|";
+					writer.WriteStartObject();
+
+					if (this.comboBox1.SelectedIndex > -1)
+                    {
+						writer.WriteString("ApplicationVersion", comboBox1.SelectedItem.ToString());
 					}
-					text += dicNode.name;
+
+                    if (!string.IsNullOrEmpty(this.txtSaveDirectory.Text.Trim()))
+                    {
+						writer.WriteString("CacheDire", this.txtSaveDirectory.Text.Trim());
+					}
+
+					string text = string.Empty;
+
+					List<DicNode> checklist = null;
+					checklist = workloadList.Where(a => a.isChecked == true).ToList();
+
+					foreach (DicNode dicNode in checklist)
+					{
+						if (text != "")
+						{
+							text += "|";
+						}
+						text += dicNode.name;
+					}
+
+					if(text.Length > 0)
+                    {
+						writer.WriteString("SelectLoad", text); //选择负载
+					}
+
+
+					text = string.Empty ;
+					checklist = componentList.Where(a => a.isChecked == true).ToList();
+
+					foreach (DicNode dicNode in checklist)
+					{
+						if (text != "")
+						{
+							text += "|";
+						}
+						text += dicNode.name;
+					}
+
+					if (text.Length > 0)
+					{
+						writer.WriteString("SelectComponents", text);   //选择组件
+					}
+
+					writer.WriteEndObject();
+
+					writer.Flush();
 				}
-				configNode.InnerText = text;
-				doc.Save(configFileName);
-				// 刷新应用程序设置，这样下次读取时才能读到最新的值。
-				Settings.Default.Reload();
+				json = Encoding.UTF8.GetString(ms.ToArray());
+				File.WriteAllText(configFileName, json);
 			}
 
-			configString = @"configuration/applicationSettings/vs2017离线安装操作.Properties.Settings/setting[@name='选择组件']/value";
-			configNode = doc.SelectSingleNode(configString);
-			if (configNode != null)
-			{
-				text = "";
-				checklist = componentList.Where(a => a.isChecked == true).ToList();
-
-				foreach (DicNode dicNode in checklist)
-				{
-					if (text != "")
-					{
-						text += "|";
-					}
-					text += dicNode.name;
-				}
-				configNode.InnerText = text;
-				doc.Save(configFileName);
-				// 刷新应用程序设置，这样下次读取时才能读到最新的值。
-				Settings.Default.Reload();
-			}
-
-            //程序运行后只有操作xml方式才能修改配置文件
-            //if (comboBox1.SelectedIndex > -1)
-            //{
-            //    Settings.Default["程序版本"] = comboBox1.SelectedItem.ToString();
-            //}
-            //else
-            //{
-            //    Settings.Default["程序版本"] = "";
-            //}
-
-            //Settings.Default["缓存目录"] = txtSaveDirectory.Text.Trim();
-            //Settings.Default.Save();
-
-            MessageBoxEx.Show(this, "保存成功", "提示");
+			MessageBoxEx.Show(this, "保存成功", "提示");
 		}
 
 		/// <summary>
