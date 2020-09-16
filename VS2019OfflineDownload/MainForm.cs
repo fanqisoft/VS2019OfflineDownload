@@ -542,32 +542,40 @@ namespace VS2019OfflineDownload
 		private void MainForm_Shown(object sender, EventArgs e)
 		{
 			string configFileName = Application.ExecutablePath + ".json";
-			string json = File.ReadAllText(configFileName);
-			var jDoc = JsonDocument.Parse(json);
-
-			JsonElement jsonElement = new JsonElement();
-			if (jDoc.RootElement.TryGetProperty("ApplicationVersion", out jsonElement))
-            {
-				this.comboBox1.SelectedItem = jsonElement.GetString();
-            }
-
-			if(jDoc.RootElement.TryGetProperty("CacheDire", out jsonElement))
-            {
-				this.txtSaveDirectory.Text = jsonElement.GetString();
-			}
+			string json = string.Empty;
 
 			string checkWorkloadStr = "";
 			string checkComponentStr = "";
 
-			if (jDoc.RootElement.TryGetProperty("SelectLoad", out jsonElement))
-			{
-				checkWorkloadStr = jsonElement.GetString();
-			}
+			try
+            {
+				json = File.ReadAllText(configFileName);
+				var jDoc = JsonDocument.Parse(json);
 
-			if (jDoc.RootElement.TryGetProperty("SelectComponents", out jsonElement))
-			{
-				checkComponentStr = jsonElement.GetString();
+				JsonElement jsonElement = new JsonElement();
+				if (jDoc.RootElement.TryGetProperty("ApplicationVersion", out jsonElement))
+				{
+					this.comboBox1.SelectedItem = jsonElement.GetString();
+				}
+
+				if (jDoc.RootElement.TryGetProperty("CacheDire", out jsonElement))
+				{
+					this.txtSaveDirectory.Text = jsonElement.GetString();
+				}
+
+				if (jDoc.RootElement.TryGetProperty("SelectLoad", out jsonElement))
+				{
+					checkWorkloadStr = jsonElement.GetString();
+				}
+
+				if (jDoc.RootElement.TryGetProperty("SelectComponents", out jsonElement))
+				{
+					checkComponentStr = jsonElement.GetString();
+				}
 			}
+            catch (Exception)
+            {
+            }
 
 			this.treeViewWorkload.Nodes.Clear();
 
