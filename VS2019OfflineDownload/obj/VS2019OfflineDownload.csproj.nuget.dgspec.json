@@ -10,26 +10,27 @@
         "projectUniqueName": "D:\\Coreqi\\VS2019OfflineDownload\\VS2019OfflineDownload\\VS2019OfflineDownload.csproj",
         "projectName": "VS2019OfflineDownload",
         "projectPath": "D:\\Coreqi\\VS2019OfflineDownload\\VS2019OfflineDownload\\VS2019OfflineDownload.csproj",
-        "packagesPath": "C:\\Users\\fanqi\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\reegle\\.nuget\\packages\\",
         "outputPath": "D:\\Coreqi\\VS2019OfflineDownload\\VS2019OfflineDownload\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\fanqi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\reegle\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net5.0-windows7.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
+          "net5.0-windows7.0": {
+            "targetAlias": "net5.0-windows",
             "projectReferences": {}
           }
         },
@@ -40,7 +41,8 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
+        "net5.0-windows7.0": {
+          "targetAlias": "net5.0-windows",
           "imports": [
             "net461",
             "net462",
@@ -59,7 +61,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
